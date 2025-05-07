@@ -14,22 +14,23 @@ export class PersonTableComponent {
   name = "Thanasis"
   addressOReducation: string = '';
 
-  person = {
-    givenName: "Thanasis",
-    surname: "Androutsos",
-    age: 20,
-    email: 'thanasis@aueb.gr'
-  }
+  // person = {
+  //   givenName: "Thanasis",
+  //   surname: "Androutsos",
+  //   age: 20,
+  //   email: 'thanasis@aueb.gr'
+  // }
+
   isPerson():boolean {
     if (this.personInput && 'address' in this.personInput){
       this.addressOReducation = this.personInput.address
-      return 'address' in this.personInput
+      return 'address' in this.personInput;
     }
     return false;
   }
 
   isEPerson():boolean {
-    if (this.personInput&& 'education' in this.personInput){
+    if (this.personInput && 'education' in this.personInput){
       this.addressOReducation = this.personInput.education
       return 'education' in this.personInput;
     }
