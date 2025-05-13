@@ -10,6 +10,7 @@ import {
   Validators 
 } from '@angular/forms';
 import { UserService } from 'src/app/shared/services/user.service';
+import { User } from 'src/app/shared/interfaces/user';
 
 @Component({
   selector: 'app-user-registration',
@@ -24,6 +25,11 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class UserRegistrationComponent {
   userService = inject(UserService);
+
+  registrationStatus: {success: boolean, message: string} = {
+    success: false,
+    message: 'Not attempted yet'
+  }
 
   form = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -55,8 +61,30 @@ export class UserRegistrationComponent {
   }
 
   onSubmit(){
-    const data = this.form.value;
+    // const data = this.form.value as User;
+    const data: User = {
+      'username': this.form.get('username')?.value || '',
+      'password': this.form.get('password')?.value || '',
+      'name': this.form.get('name')?.value || '',
+      'surname': this.form.get('surname')?.value || '',
+      'email': this.form.get('email')?.value || '',
+      'address': {
+        'area': this.form.get('area')?.value || '',
+        'road': this.form.get('road')?.value || ''
+      }
+    }
     console.log(data);
+    this.userService.registerUser(data)
+      .subscribe({
+        next: (response) => {
+          console.log("User Saved", response);
+          this.registrationStatus = {success: true, message: "User registered"}
+        },
+        error: (response) => {
+          console.log("User not Saved", response);
+          this.registrationStatus = {success: false, message: response.data}
+        }
+      })
   }
 
   check_duplicate_email() {
@@ -77,5 +105,10 @@ export class UserRegistrationComponent {
           }
         })
     }
+  }
+
+  registerAnother() {
+    this.form.reset()
+    this.registrationStatus = {success: false, message: "Not attempted yet"}
   }
 }
