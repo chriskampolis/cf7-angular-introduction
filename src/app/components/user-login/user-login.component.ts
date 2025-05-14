@@ -44,7 +44,7 @@ export class UserLoginComponent {
             email: decodedTokenSubject.email,
             roles: decodedTokenSubject.roles
           })
-          console.log(this.userService.user$());
+          console.log("Signal>>>", this.userService.user$());
 
           this.router.navigate(['user-registration-example'])
         },
