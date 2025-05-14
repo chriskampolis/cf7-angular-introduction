@@ -69,8 +69,8 @@ export class UserRegistrationComponent {
       'surname': this.form.get('surname')?.value || '',
       'email': this.form.get('email')?.value || '',
       'address': {
-        'area': this.form.get('area')?.value || '',
-        'road': this.form.get('road')?.value || ''
+        'area': this.form.controls.address.controls.area?.value || '',
+        'road': this.form.controls.address.controls.road?.value || ''
       }
     }
     console.log(data);
@@ -81,8 +81,8 @@ export class UserRegistrationComponent {
           this.registrationStatus = {success: true, message: "User registered"}
         },
         error: (response) => {
-          console.log("User not Saved", response);
-          this.registrationStatus = {success: false, message: response.data}
+          console.log("User not Saved", response.error.data.errorResponse.errmsg);
+          this.registrationStatus = {success: false, message: response.error.data.errorResponse.errmsg}
         }
       })
   }
@@ -94,13 +94,13 @@ export class UserRegistrationComponent {
       this.userService.check_duplicate_email(email)
         .subscribe({
           next: (response) => {
-            console.log(response)
+            console.log("Email OK", response)
             this.form.get("email")?.setErrors(null)
           },
           error: (response) => {
             console.log(response);
             const message = response.data;
-            console.log(message);
+            console.log("Email not OK", message);
             this.form.get('email')?.setErrors({duplicateEmail: true})
           }
         })
