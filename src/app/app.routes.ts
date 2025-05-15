@@ -10,6 +10,7 @@ import { ReactiveFormExampleComponent } from './components/reactive-form-example
 import { HttpClientExampleComponent } from './components/http-client-example/http-client-example.component';
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
+import { RestrictedContentComponent } from './components/restricted-content/restricted-content.component';
 
 // GUARDS 
 import { authGuard } from './shared/guards/auth.guard';
@@ -30,6 +31,7 @@ export const routes: Routes = [
     canActivate: [authGuard, adminRoleGuard]
   },
   { path: 'login', component: UserLoginComponent },
+  { path: 'restricted-content', component: RestrictedContentComponent },
   { path:'welcome', component: WelcomeComponent },
   { path: '', redirectTo: '/welcome', pathMatch:'full' }
 ];
