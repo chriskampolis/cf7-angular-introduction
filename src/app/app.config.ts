@@ -4,8 +4,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 // Import for HTTP Client Service
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from './shared/services/auth-interceptor.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +13,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     // For HTTP Client Service
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptorsFromDi())
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
   ]
 };
